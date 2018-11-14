@@ -1,8 +1,9 @@
-var pkg = require('./package.json')
-var path = require('path')
+var pkg = require('./package.json');
+var path = require('path');
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var MiniCssExtractPlugin = require('mini-css-extract-plugin');
+// var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -19,19 +20,43 @@ module.exports = {
       extensions:['.js','.jsx']
   },
   mode:'production',
-  module: {
-    loaders: [
-        { test: /\.(js|jsx)$/, exclude: /node_modules/, loader: 'babel' },
-      //Extract 对css代码做一个分离
-        { test: /\.less$/, exclude: /node_modules/, loader: ExtractTextPlugin.extract('style', 'css!postcss!less') },
-        { test: /\.css$/, exclude: /node_modules/, loader: ExtractTextPlugin.extract('style', 'css!postcss') },
-        { test:/\.(png|gif|jpg|jpeg|bmp)$/i, loader:'url-loader?limit=5000&name=img/[name].[chunkhash:8].[ext]' },
-        { test:/\.(png|woff|woff2|svg|ttf|eot)($|\?)/i, loader:'url-loader?limit=5000&name=fonts/[name].[chunkhash:8].[ext]'}
+  module:{
+    rules:[
+        {
+           test:/\.(js|jsx)$/,exclude:/node_modules/,
+           use:[
+               {
+                  loader:'babel-loader',
+               }
+           ]
+        },
+        {
+           test:/\.html$/,
+           use:[
+               {
+                  loader:'html-loader',options:{minimize:true},
+               }
+           ]
+        },
+        {
+            test:/\.scss|css$/,
+            // use:[
+            //     // {loader:'style-loader'},
+            //     // {loader:'css-loader'},
+            //     // // {loader:'postcss-loader'},
+            //     // {loader:'sass-loader'}
+            // ]
+            use:[MiniCssExtractPlugin.loader,'style-loader','css-loader','sass-loader']
+        }
+       //  {test:/\.less$/,exclude:/node_modules/,loader:'style!css!postcss!less'},//！类似于管道的作用，按顺序执行
+       //  {test:/\.css$/,exclude:/node_modules/,loader:'style!css!postcss'},//！类似于管道的作用，按顺序执行
+       //  {test:/\.(png|gif|jpg|jpeg|bmp)$/i,exclude:/node_modules/,loader:'url-loader?limit=5000'},//限制大小5kb
+       //  {test:/\.(png|woff|woff2|svg|tff|eot)()/i,exclude:/node_modules/,loader:'url-loader?limit=5000'}//限制大小5kb
     ]
-  },
-  postcss: [
-    require('autoprefixer')
-  ],
+},
+  // postcss: [
+  //   require('autoprefixer')
+  // ],
 
   plugins: [
     // webpack 内置的 banner-plugin
@@ -43,35 +68,45 @@ module.exports = {
     }),
 
     // 定义为生产环境，编译 React 时压缩到最小
-    new webpack.DefinePlugin({
-      'process.env':{
-        'NODE_ENV': JSON.stringify(process.env.NODE_ENV)//stringify里面的是node端本身就识别的代码
-      }
-    }),
+    // new webpack.DefinePlugin({
+    //   'process.env':{
+    //     'NODE_ENV': JSON.stringify(process.env.NODE_ENV)//stringify里面的是node端本身就识别的代码
+    //   }
+    // }),
     //这样在控制台可以通过process.env.NODE_ENV
 
     // 为组件分配ID，通过这个插件webpack可以分析和优先考虑使用最多的模块，并为它们分配最小的ID
-    new webpack.optimize.OccurenceOrderPlugin(),
+    // new webpack.optimize.OccurenceOrderPlugin(),
     
-    new webpack.optimize.UglifyJsPlugin({
-        compress: {
-          //supresses warnings, usually from module minification
-          warnings: false
-        }
-    }),
+    // new webpack.optimize.UglifyJsPlugin({
+    //     compress: {
+    //       //supresses warnings, usually from module minification
+    //       warnings: false
+    //     }
+    // }),
+    // new webpack.optimization.minimize({
+    //     compress: {
+    //       //supresses warnings, usually from module minification
+    //       warnings: false
+    //     }
+    // }),
     
     // 分离CSS和JS文件
-    new ExtractTextPlugin('[name].[chunkhash:8].css'), 
+    // new ExtractTextPlugin('[name].[chunkhash:8].css'), 
+    new MiniCssExtractPlugin({
+      filename:'[name].css',
+      chunkFilename:'[id].css',
+    }),
     
     // 提供公共代码
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      filename: '[name].[chunkhash:8].js'
-    }),
+    // new webpack.optimize.CommonsChunkPlugin({
+    //   name: 'vendor',
+    //   filename: '[name].[chunkhash:8].js'
+    // }),
 
     // 可在业务 js 代码中使用 __DEV__ 判断是否是dev模式（dev模式下可以提示错误、测试报告等, production模式不提示）
-    new webpack.DefinePlugin({
-      __DEV__: JSON.stringify(JSON.parse((process.env.NODE_ENV == 'dev') || 'false'))
-    })
+    // new webpack.DefinePlugin({
+    //   __DEV__: JSON.stringify(JSON.parse((process.env.NODE_ENV == 'dev') || 'false'))
+    // })
   ]
 }
