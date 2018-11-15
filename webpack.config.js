@@ -39,6 +39,8 @@ module.exports = {
     //  postcss:[
     //      require('autoprefixer')//调用autoprefixer插件,例如 display:flex,针对不同的浏览器添加css hack
     //  ],
+     devtool: 'cheap-module-eval-source-map',
+     // this helps to browser to point to the exact file in the console, helps in debug
      plugins:[
          //html 模板插件
          new HtmlWebpackPlugin({
@@ -65,7 +67,9 @@ module.exports = {
         // contentBase:'./assets',
         host:'127.0.0.1',
         port:4200,
-        open:true
+        open:true,
+        historyApiFallback: true,
+        contentBase: path.join(__dirname, 'public'),
         // publishPath:'./assets',
         // historyApiFallback:{
         //     index:'./app/index.html'

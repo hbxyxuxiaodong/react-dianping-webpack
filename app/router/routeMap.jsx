@@ -1,5 +1,5 @@
 import React from 'react'
-import {BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom'
 import App from '../containers/app'
 import Home from '../containers/home'
 import List from '../containers/list'
@@ -8,19 +8,28 @@ import NotFound from '../containers/notfound'
 const routes = [
     {
         path:'/',
-        component:App
+        component:App,
+        exact:true,
     },
     {
         path:'/list',
-        component:List
+        component:List,
+        exact:false,
     },
     {
         path:'/detail',
-        component:Detail
+        component:Detail,
+        exact:false,
+    },
+    {
+        path:'/home',
+        component:Detail,
+        exact:false,
     },
     {
         path:'*',
-        component:NotFound
+        component:NotFound,
+        exact:false,
     },
 ]
 // function AppRoute(){
@@ -84,6 +93,7 @@ function RouteWithSubRoutes(route){
    return (
        <Route
          path={route.path}
+         exact={route.exact}
          render={props =>{
                <route.component {...props} routes={route.routes}/>
          }}
@@ -96,17 +106,25 @@ function AppRoute(){
             <div>
                 <ul>
                     <li>
+                        <Link to='/'>App</Link>
+                    </li>
+                    <li>
                         <Link to='/list'>list</Link>
                     </li>
                     <li>
                         <Link to='/detail'>detail</Link>
                     </li>
+                    <li>
+                        <Link to='/home'>home</Link>
+                    </li>
                 </ul>
+                <Switch>
                 {
                     routes.map((route,i)=>{
                         <RouteWithSubRoutes key={i} {...route}/>
                     })
                 }
+                </Switch>
             </div>
         </Router>
     )
