@@ -34,7 +34,17 @@
 //     document.getElementById('root')
 // )
 
-import React from 'react';
-import Hello from './containers/hello';
-import {render} from 'react-dom';
-render(<Hello/>,document.getElementById('root'))
+// import React from 'react';
+// import Todo from './containers/todo';
+// import {render} from 'react-dom';
+// render(<Todo/>,document.getElementById('root'))
+import React from 'react'
+import {render} from 'react-dom'
+// import {hashHistory} from 'react-router'
+// import RouteMap from './router/routeMap'
+import AppRoute from './router/routeMap';
+
+render (
+    <AppRoute/>,
+    document.getElementById('root')
+)

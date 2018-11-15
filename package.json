@@ -37,6 +37,8 @@
   },
   "dependencies": {
     "react": "^16.6.1",
-    "react-dom": "^16.6.1"
+    "react-addons-pure-render-mixin": "^15.6.2",
+    "react-dom": "^16.6.1",
+    "react-router-dom": "^4.3.1"
   }
 }
