@@ -42,7 +42,8 @@
 // import RouteMap from './router/routeMap'
 import React from 'react'
 import {render} from 'react-dom'
-import AppRoute from './router/routeMap';
+// import AppRoute from './router/routeMap';
+import App from './components/app';
 import {Provider} from 'react-redux';
 import rootReducer from './reducers';
 import {createStore} from 'redux';
@@ -50,7 +51,7 @@ const store = createStore(rootReducer);
 
 render (
     <Provider store={store}>
-        <AppRoute/>
+        <App/>
     </Provider>,
     document.getElementById('root')
 )

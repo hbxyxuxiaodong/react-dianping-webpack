@@ -16,4 +16,4 @@ const todos = (state = [], action) => {
             return state
     }
   }
-  export default todo
+  export default todos
