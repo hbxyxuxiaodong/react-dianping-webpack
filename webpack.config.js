@@ -65,15 +65,23 @@ module.exports = {
         //  inline:true,//实时刷新
         //  hot:true //使用热加载插件 HotModuleReplacementPlugin
         // contentBase:'./assets',
-        host:'127.0.0.1',
-        port:4200,
-        open:true,
-        historyApiFallback: true,
-        contentBase: path.join(__dirname, 'public'),
         // publishPath:'./assets',
         // historyApiFallback:{
         //     index:'./app/index.html'
         // }
-     }
-
+        host:'127.0.0.1',
+        port:4200,
+        open:true,//打开浏览器
+        historyApiFallback: true,
+        contentBase: path.join(__dirname, 'public'),//本地服务器所加载的页面所在的目录
+        proxy:{
+            //凡是 '/api' 开头的http请求，都会被代理到localhost:3000上，实际上后端做了一次转发 ，后端去3000端口拿到数据后，又返回的，这里并不是真正的服务，真正的服务在3000端口上
+            //由koa提供模拟数据
+            //koa 代码在./mock 目录中,启动命令为 npm run mock
+            '/api':{
+                target:'http://localhost:3000',
+                secure:false
+            }
+        }
+    }
 }
