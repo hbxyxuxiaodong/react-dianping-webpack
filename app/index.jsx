@@ -40,18 +40,24 @@
 // render(<Todo/>,document.getElementById('root'))
 // import {hashHistory} from 'react-router'
 // import RouteMap from './router/routeMap'
+// import AppRoute from './router/routeMap';
+// import App from './components/app';
+// import rootReducer from './reducers';
+// import {createStore} from 'redux';
+// import  fn from './redux-demo';
+// fn()
+// const store = createStore(rootReducer);
 import React from 'react'
 import {render} from 'react-dom'
-// import AppRoute from './router/routeMap';
-import App from './components/app';
 import {Provider} from 'react-redux';
-import rootReducer from './reducers';
-import {createStore} from 'redux';
-const store = createStore(rootReducer);
-
+import configureStore from './store/configureStore'
+import Hello from './containers/hello'
+const store  = configureStore()
+//Provider 是react-redux 提供的一个组件，它本质上还是一个react组件，只不过根据redux的特性做了一些封装，它会帮我们做一些redux的事情
+//首先要获取store，把他传到provider里面去 
 render (
     <Provider store={store}>
-        <App/>
+        <Hello/>
     </Provider>,
     document.getElementById('root')
 )
