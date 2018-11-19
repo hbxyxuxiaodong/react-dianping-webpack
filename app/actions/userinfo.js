@@ -12,3 +12,9 @@ export function updateCityName (data) {
         data
     }
 }
+export function update (data) {
+    return {
+        type:actionTypes.USERINFO_UPDATE,
+        data
+    }
+}

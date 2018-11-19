@@ -26,7 +26,6 @@ module.exports = {
                  use:[
                      {loader:'style-loader'},
                      {loader:'css-loader'},
-                     {loader:'postcss-loader'},
                      {loader:'sass-loader'}
                  ]
              }
@@ -47,7 +46,7 @@ module.exports = {
              template:__dirname+'/app/index.tmpl.html'
          }),
          //热加载插件
-         new webpack.HotModuleReplacementPlugin(),
+        //  new webpack.HotModuleReplacementPlugin(),
          //打开浏览器
         //  new OpenBrowerPlugin({
         //      url:'http:localhost:8080'
@@ -69,6 +68,7 @@ module.exports = {
         // historyApiFallback:{
         //     index:'./app/index.html'
         // }
+        inline:true,//实时刷新
         host:'127.0.0.1',
         port:4200,
         open:true,//打开浏览器

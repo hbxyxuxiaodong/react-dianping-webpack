@@ -51,14 +51,16 @@ import React from 'react'
 import {render} from 'react-dom'
 import {Provider} from 'react-redux';
 import configureStore from './store/configureStore'
-import Hello from './containers/hello'
+// import Hello from './containers/hello'
 import {getData, postData} from './fetch/data'
+import AppRoute from './router/approute'
 const store  = configureStore()
 //Provider 是react-redux 提供的一个组件，它本质上还是一个react组件，只不过根据redux的特性做了一些封装，它会帮我们做一些redux的事情
 //首先要获取store，把他传到provider里面去 
 render (
     <Provider store={store}>
-        <Hello/>
+        {/* <Hello/> */}
+        <AppRoute/>
     </Provider>,
     document.getElementById('root')
 )
